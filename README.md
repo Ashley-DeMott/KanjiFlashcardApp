@@ -5,7 +5,7 @@ An Android application that displays Japanese kanji flashcards. Will display ran
 [Software Demo Video - TBD]()
 
 ## Development Environment
-* Android Studio (version)
+* Android Studio (Iguana 2023.2.1)
 * Kotlin
 
 ## Useful Websites
