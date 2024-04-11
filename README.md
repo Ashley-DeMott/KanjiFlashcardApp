@@ -1,8 +1,8 @@
 # KanjiFlashcardApp
 ## Overview
-An Android application that displays Japanese kanji flashcards. Will display randomly selected flashcards that have the kanji on one side and english meaning on the other. Learning how to use Android studio and develop mobile applications.
+An Android application that displays kanji flashcards. Will display randomly selected flashcards with kanji on one side and their english meaning on the other. The goal of this project is to learning how to use Android studio and develop mobile applications. I learned more about Kotlin as well.
 
-[Software Demo Video - TBD]()
+[Demo Video]()
 
 ## Development Environment
 * Android Studio (Iguana 2023.2.1)
@@ -12,6 +12,7 @@ An Android application that displays Japanese kanji flashcards. Will display ran
 * [Android Developer](https://developer.android.com/)
 * [Android App Tutorial](https://developer.android.com/codelabs/basic-android-kotlin-compose-first-app#0)
 * [Android Jetpack Compose Tutorial](https://developer.android.com/develop/ui/compose/tutorial)
+* [Geeks For Geeks](https://www.geeksforgeeks.org/)
 
 ## Future Work
 * Connect to [Kanji API](https://kanjiapi.dev/)
