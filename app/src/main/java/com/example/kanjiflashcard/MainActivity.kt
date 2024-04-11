@@ -1,5 +1,6 @@
 package com.example.kanjiflashcard
 
+// LIst of imports, Android Studio automatically removes imports that aren't used
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
@@ -25,46 +26,27 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.kanjiflashcard.ui.theme.KanjiFlashcardTheme
-
-// HTTPS access
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import java.io.IOException
-
-//import android.os.AsyncTask
-
-// JSON
-import java.io.File
-import com.google.gson.Gson
 import kotlin.random.Random
 
 class MainActivity : ComponentActivity() {
     // Called when the user starts the application
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        updateFlashcard()
+        updateLayout()
     }
 
-    // Updates the Flashcard (redoes the entire layout, with updated values)
-    fun updateFlashcard() {
+    // Updates the application (redoes the entire layout, with updated values)
+    private fun updateLayout() {
+        // TODO: Is there an update content?
         setContent {
             KanjiFlashcardTheme {
                 Layout()
             }
         }
-
     }
 
-    // A collection of data on a Flashcard, the kanji and the (first) english meaning
-    data class Flashcard(val kanji: String, val english: String)
-
-    // The current card being displayed
-    var currentCard = Flashcard("犬","dog")
-    var count = 0 // DEBUG: Checking button presses
-    var showKanji = true
-
     // A list of the first few kanji (maps with only the kanji and first english meanings)
-    val kanjiList =
+    private val kanjiList =
         listOf(mapOf("kanji" to "㐂","meanings" to listOf("")),
             mapOf("kanji" to "㐆","meaning" to "to depend on"),
             mapOf("kanji" to "㐬","meaning" to "a pennant"),
@@ -100,29 +82,73 @@ class MainActivity : ComponentActivity() {
             mapOf("kanji" to "母","meaning" to "mother"),
         )
 
+    // A collection of data on a Flashcard, the kanji and the (first) english meaning
+    data class Flashcard(val kanji: String, val english: String)
+
+    // The current card being displayed
+    // TODO: Create a random card, but cannot call here since Layout is affected
+    private var currentCard = createNewCard()
+        //Flashcard("犬","dog")
+
+    // If the kanji side is being shown
+    private var showKanji = true
+
+    // If the menu is being shown
+    private var showMenu = false
+
+    // A collection of Flashcards
+    class Deck(private var name: String) {
+        // The flashcards in the deck
+        private var flashcards = mutableListOf<Flashcard>()
+
+        // The current card of the deck
+        private var currentCard = 0
+
+        fun getSize() : Int {
+            return flashcards.size
+        }
+
+        fun getDeckName() : String {
+            return name
+        }
+        fun addFlashcard(f: Flashcard) {
+            // Add a card to the deck
+            flashcards.add(f)
+        }
+        fun getNextCard() : Flashcard? {
+            // Move to next card
+            currentCard++
+            if (currentCard > flashcards.size - 1) {
+                currentCard = 0
+            }
+
+            // Return next card
+            return if (flashcards.size > 0) {
+                flashcards[currentCard]
+            } else null
+        }
+    }
+
+    // TODO: Not in use, research Gson
     // The file location TODO: pack with application/store on device?
     // Original file of 13000 kanji is too large (all items on a single line)
     val filePath = "kanjiapi_test.json"
 
     // Create a random Flashcard
-    fun createNewCard() : Flashcard {
+    private fun createNewCard() : Flashcard {
         // TODO: Get from file
-
         //val file = File(filePath)
-        // val jsonString = file.readText()
+        //val jsonString = file.readText()
 
-        // TODO: Mapping to a data class using Gson, was automatically converted
-        //  to Kotlin from Java by Android Studio, so double check syntax
-        //val card = Gson().fromJson(jsonString, Flashcard::class.java)
+        // TODO: Mapping to a data class using Gson, how to identify Kotlin class types?
+        // Error says 'does not have companion object'
+        //val card = Gson().fromJson(jsonString, Flashcard)
 
         // Get a random number between 0 and the size of the list of kanji
         val next = Random.nextInt(0, kanjiList.size)
-        Log.d("List info", kanjiList[next]["kanji"].toString());
 
         // Create and return a Flashcard from the data
-        val kanji = kanjiList[next]["kanji"].toString()
-        val english = kanjiList[next]["meaning"].toString()
-        return Flashcard(kanji, english)
+        return Flashcard(kanjiList[next]["kanji"].toString(), kanjiList[next]["meaning"].toString())
     }
 
     // Display the English side of the flashcard
@@ -179,6 +205,7 @@ class MainActivity : ComponentActivity() {
         DisplayFlashcard(currentCard)
     }
 
+    // The overall layout of the application
     @Composable
     fun Layout() {
         // TODO: Expand to size of application
@@ -233,28 +260,52 @@ class MainActivity : ComponentActivity() {
     }
 
     // Change which side of the flashcard is shown
-    fun flipCard() {
+    private fun flipCard() {
         showKanji = !showKanji
-        updateFlashcard()
+        updateLayout()
     }
 
-    fun toggleMenu() {
-        // Show/hide the menu
-        Log.d("Button", "Pressed Menu");
+    // Toggle the visibility of the menu
+    // TODO: Create surface with menu items, set showMenu true/false
+    private fun toggleMenu() {
+        showMenu = !showMenu
+        Log.d("Button", "Pressed Menu")
     }
 
-    fun nextCard() {
-        // Get the next card from the deck
-        // If no deck selected, get a random kanji card
+    // Gets the next card from the deck
+    // TODO: Check if a deck is selected
+    private fun nextCard() {
+        // No deck selected, get a random kanji card
         currentCard = createNewCard()
-        updateFlashcard()
-        //currentCard = createNewCard()
-        count++
-        Log.d("Button", "Pressed Next $count times")
+        updateLayout()
     }
 
-    fun addToDeck() {
-        // Show list of decks to add to, or create new deck
-        Log.d("Button", "Pressed Add");
+    // Add the current card to a specified deck
+    // TODO: Set up decks
+    private fun addToDeck() {
+        // Show the list of decks, along with 'new deck'
+        showDecks()
+
+        // Allow the user to select a deck
+        // TODO: see Show Decks
+
+        // Add the current card to a deck
+        Log.d("Button", "Pressed Add")
+
+        // selectedDeck.add(currentCard)
+    }
+
+    // TODO: Add 'Deck Title' section with a button, call on click
+    private fun showDecks() {
+        // Show all the decks (would be shown for both 'add/save' and 'select'
+    }
+
+    // Allows the user to select a Deck of flashcards to review
+    // TODO: Passed selected deck? Research user input events (or make list of buttons, call function with appropriate parameter?
+    private fun selectDeck() {
+        showDecks()
+        /*
+        If selected deck's size == 0, cannot pick
+         */
     }
 }
