@@ -47,7 +47,7 @@ class MainActivity : ComponentActivity() {
 
     // A list of the first few kanji (maps with only the kanji and first english meanings)
     private val kanjiList =
-        listOf(mapOf("kanji" to "㐂","meanings" to listOf("")),
+        listOf(
             mapOf("kanji" to "㐆","meaning" to "to depend on"),
             mapOf("kanji" to "㐬","meaning" to "a pennant"),
             mapOf("kanji" to "㐮","meaning" to "to achieve"),
@@ -80,6 +80,24 @@ class MainActivity : ComponentActivity() {
             mapOf("kanji" to "男","meaning" to "man"),
             mapOf("kanji" to "父","meaning" to "father"),
             mapOf("kanji" to "母","meaning" to "mother"),
+            mapOf("kanji" to "誕生日","meaning" to "birthday"),
+            mapOf("kanji" to "鼻","meaning" to "nose"),
+            mapOf("kanji" to "耳","meaning" to "ear"),
+            mapOf("kanji" to "口","meaning" to "mouth"),
+            mapOf("kanji" to "日","meaning" to "day"),
+            mapOf("kanji" to "月","meaning" to "moon"),
+            mapOf("kanji" to "木","meaning" to "tree"),
+            mapOf("kanji" to "川","meaning" to "river"),
+            mapOf("kanji" to "銀","meaning" to "silver"),
+            mapOf("kanji" to "髪","meaning" to "hair"),
+            mapOf("kanji" to "紙","meaning" to "paper"),
+            mapOf("kanji" to "目","meaning" to "eye"),
+            mapOf("kanji" to "私","meaning" to "I (female)"),
+            mapOf("kanji" to "僕","meaning" to "I (male)"),
+            mapOf("kanji" to "手","meaning" to "hand"),
+            mapOf("kanji" to "足","meaning" to "foot"),
+            mapOf("kanji" to "散歩","meaning" to "a walk"),
+            mapOf("kanji" to "大丈夫","meaning" to "OK / all right"),
         )
 
     // A collection of data on a Flashcard, the kanji and the (first) english meaning
@@ -180,6 +198,7 @@ class MainActivity : ComponentActivity() {
         )
     }
 
+    // Display the flashcard as a Composable
     @Composable
     fun DisplayFlashcard(flashcard: Flashcard) {
         // The surface of the card
@@ -191,6 +210,7 @@ class MainActivity : ComponentActivity() {
                 .clickable(onClick = { flipCard() } ),
             border = BorderStroke(2.dp, Color.Black)
         ) {
+            // Show specified side of card
             if(showKanji) {
                 DisplayKanji(flashcard.kanji)
             } else {
@@ -199,6 +219,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    // A preview that can be seen within Android Studio
     @Preview(showBackground = true)
     @Composable
     fun PreviewFlashcard() {
@@ -253,6 +274,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    // A preview of the app's overall layout
     @Preview(showBackground = true)
     @Composable
     fun PreviewLayout() {
