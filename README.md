@@ -2,7 +2,7 @@
 ## Overview
 An Android application that displays kanji flashcards. Will display randomly selected flashcards with kanji on one side and their english meaning on the other. The goal of this project is to learning how to use Android studio and develop mobile applications. I learned more about Kotlin as well.
 
-[Demo Video]()
+[Demo Video](https://www.youtube.com/watch?v=dxMk5Lzx3ZM)
 
 ## Development Environment
 * Android Studio (Iguana 2023.2.1)
